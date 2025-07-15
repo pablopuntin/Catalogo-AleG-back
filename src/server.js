@@ -1,0 +1,24 @@
+const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
+const server  = express();
+const Producto = require('./models/Producto');
+const authRouter = require("./routes/authRouter");
+const productosRouter = require("./routes/productoRouter");
+const path = require("path");
+
+//Midleware
+server.use(cors());
+server.use(morgan("dev"));
+server.use(express.json( ));
+
+// Middleware para servir archivos estáticos del frontend
+server.use(express.static(path.join(__dirname, "../../front/public")));
+
+
+//rutas
+server.use("/productos", productosRouter);
+
+server.use("/login", authRouter);
+
+module.exports = server;
