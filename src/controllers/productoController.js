@@ -29,22 +29,28 @@ const obtenerProductoPorId = async (req, res) => {
 // ✅ Crear producto
 const crearProducto = async (req, res) => {
   try {
-    const { titulo, descripcion, disponible, seccion } = req.body;
-    const imagenUrl = req.file?.path || ""; // URL pública de Cloudinary o vacía
+    const { nombre, descripcion, precio, stock, disponible, seccion } = req.body;
+
+    // Validación básica
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({ error: "Imagen (poster) obligatoria" });
+    }
 
     const nuevoProducto = new Producto({
-      titulo,
+      nombre,
       descripcion,
+      precio: Number(precio),
+      stock: Number(stock),
       disponible: disponible.split(',').map(t => t.trim()),
       seccion,
-      imagen: imagenUrl,
+      poster: req.file.path, // ruta pública de Cloudinary
     });
 
     await nuevoProducto.save();
     res.status(201).json(nuevoProducto);
   } catch (error) {
     console.error("Error al crear producto:", error);
-    res.status(500).json({ error: "Error al crear producto" });
+    res.status(500).json({ error: "Error al crear producto", detalles: error.message });
   }
 };
 
