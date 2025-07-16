@@ -14,7 +14,7 @@ server.use(morgan("dev"));
 server.use(express.json( ));
 
 // Middleware para servir archivos estáticos del backend
-server.use('./', express.static(path.join(__dirname, '../uploads')));
+server.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 //rutas
 server.use("/productos", productoRouter);
