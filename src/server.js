@@ -17,7 +17,7 @@ server.use(express.static(path.join(__dirname, "../../front/public")));
 
 
 //rutas
-server.use("/producto", productoRouter);
+server.use("/productos", productoRouter);
 
 server.use("/login", authRouter);
 
