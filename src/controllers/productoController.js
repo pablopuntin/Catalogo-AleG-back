@@ -49,9 +49,10 @@ const crearProducto = async (req, res) => {
     await nuevoProducto.save();
     res.status(201).json(nuevoProducto);
   } catch (error) {
-    console.error("Error al crear producto:", error);
-    res.status(500).json({ error: "Error al crear producto", detalles: error.message });
-  }
+  console.error("Error al crear producto:", JSON.stringify(error, null, 2)); // Esto sí muestra el contenido útil
+  res.status(500).json({ mensaje: "Error al guardar producto", error: error.message });
+}
+
 };
 
 // ✅ Actualizar producto
