@@ -2,16 +2,35 @@ const Producto = require("../models/Producto");
 const path = require("path");
 const fs = require("fs");
 
-// ✅ Obtener todos los productos
+// ✅ Obtener todos los productos y filtrar por seccion
 const obtenerProductos = async (req, res) => {
   try {
-    const productos = await Producto.find();
+    const { seccion } = req.query;
+
+    const seccionesValidas = ["remeras", "buzos", "calzas", "marroquineria"];
+
+    let productos;
+
+    if (seccion) {
+      if (!seccionesValidas.includes(seccion.toLowerCase())) {
+        return res.status(400).json({
+          mensaje: `Sección inválida. Las secciones válidas son: ${seccionesValidas.join(", ")}.`,
+        });
+      }
+
+      productos = await Producto.find({ seccion: seccion.toLowerCase() });
+    } else {
+      productos = await Producto.find();
+    }
+
     res.json(productos);
   } catch (error) {
     console.error("Error al obtener productos", error.message);
     res.status(500).json({ mensaje: "Error al obtener productos", error: error.message });
   }
 };
+
+
 
 // ✅ Obtener un producto por ID
 const obtenerProductoPorId = async (req, res) => {
