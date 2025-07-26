@@ -8,6 +8,7 @@ router.get("/", productoController.obtenerProductos);
 // ✅ NUEVA: obtener un solo producto por ID
 router.get("/:id", productoController.obtenerProductoPorId);
 
+router.post("/", crearProducto)
 // usamos multer para recibir la imagen
 router.post("/", upload.single("poster"), productoController.crearProducto);
 
