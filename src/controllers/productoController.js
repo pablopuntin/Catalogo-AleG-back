@@ -7,7 +7,8 @@ const fs = require("fs");
 
 
 // producto.controller.js
-exports.obtenerProductos = async (req, res) => {
+
+const obtenerProductos = async (req, res) => {
   const { seccion, subcategoria } = req.query;
   const filtro = {};
   if (seccion) filtro.seccion = seccion;
@@ -20,7 +21,6 @@ exports.obtenerProductos = async (req, res) => {
     res.status(500).json({ message: "Error al obtener productos" });
   }
 };
-
 
 // ✅ Obtener un producto por ID
 const obtenerProductoPorId = async (req, res) => {
