@@ -10,6 +10,7 @@ const fs = require("fs");
 
 const obtenerProductos = async (req, res) => {
   const { seccion, subcategoria } = req.query;
+   console.log("📥 Query recibida:", req.query);
   const filtro = {};
   if (seccion) filtro.seccion = seccion;
   if (subcategoria) filtro.subcategoria = subcategoria;
