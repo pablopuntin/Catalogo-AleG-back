@@ -35,10 +35,46 @@ const obtenerProductoPorId = async (req, res) => {
   }
 };
 
-// ✅ Crear producto
+// // ✅ Crear producto
+// const crearProducto = async (req, res) => {
+//   try {
+//     const { nombre, descripcion, precio, stock, disponible, seccion } = req.body;
+
+//     // Validación básica
+//     if (!req.file || !req.file.path) {
+//       return res.status(400).json({ error: "Imagen (poster) obligatoria" });
+//     }
+
+//     const nuevoProducto = new Producto({
+//       nombre,
+//       descripcion,
+//       precio: Number(precio),
+//       stock: Number(stock),
+//       disponible: disponible.split(',').map(t => t.trim()),
+//       seccion,
+//       poster: req.file.path, // ruta pública de Cloudinary
+//     });
+
+//     await nuevoProducto.save();
+//     res.status(201).json(nuevoProducto);
+//   } catch (error) {
+//   console.error("Error al crear producto:", JSON.stringify(error, null, 2)); // Esto sí muestra el contenido útil
+//   res.status(500).json({ mensaje: "Error al guardar producto", error: error.message });
+// }
+
+// };
+
 const crearProducto = async (req, res) => {
   try {
-    const { nombre, descripcion, precio, stock, disponible, seccion } = req.body;
+    const {
+      nombre,
+      descripcion,
+      precio,
+      stock,
+      disponible,
+      seccion,
+      subcategoria, // 👈 lo agregás acá
+    } = req.body;
 
     // Validación básica
     if (!req.file || !req.file.path) {
@@ -52,17 +88,23 @@ const crearProducto = async (req, res) => {
       stock: Number(stock),
       disponible: disponible.split(',').map(t => t.trim()),
       seccion,
+      subcategoria, // 👈 y lo usás acá también
       poster: req.file.path, // ruta pública de Cloudinary
     });
 
     await nuevoProducto.save();
     res.status(201).json(nuevoProducto);
   } catch (error) {
-  console.error("Error al crear producto:", JSON.stringify(error, null, 2)); // Esto sí muestra el contenido útil
-  res.status(500).json({ mensaje: "Error al guardar producto", error: error.message });
-}
-
+    console.error("Error al crear producto:", JSON.stringify(error, null, 2));
+    res.status(500).json({
+      mensaje: "Error al guardar producto",
+      error: error.message,
+    });
+  }
 };
+
+
+
 
 // ✅ Actualizar producto
 const actualizarProducto = async (req, res) => {
