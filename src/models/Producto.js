@@ -8,9 +8,10 @@ const productoSchema = new mongoose.Schema({
   poster: { type: String, required: true },
   disponible: { type: [String], required: true },
   seccion: { type: String, required: true },
-  subcategoria: { type: String }, // <-- este es nuevo
+  subcategoria: { type: String, required: true },  // ahora requerido
   stock: { type: Number, required: true }
 });
+
 
 
  const Producto = mongoose.model('Producto', productoSchema);
