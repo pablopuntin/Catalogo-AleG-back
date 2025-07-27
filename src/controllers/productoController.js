@@ -37,35 +37,12 @@ const obtenerProductoPorId = async (req, res) => {
 };
 
 // // ✅ Crear producto
-// const crearProducto = async (req, res) => {
-//   try {
-//     const { nombre, descripcion, precio, stock, disponible, seccion } = req.body;
 
-//     // Validación básica
-//     if (!req.file || !req.file.path) {
-//       return res.status(400).json({ error: "Imagen (poster) obligatoria" });
-//     }
-
-//     const nuevoProducto = new Producto({
-//       nombre,
-//       descripcion,
-//       precio: Number(precio),
-//       stock: Number(stock),
-//       disponible: disponible.split(',').map(t => t.trim()),
-//       seccion,
-//       poster: req.file.path, // ruta pública de Cloudinary
-//     });
-
-//     await nuevoProducto.save();
-//     res.status(201).json(nuevoProducto);
-//   } catch (error) {
-//   console.error("Error al crear producto:", JSON.stringify(error, null, 2)); // Esto sí muestra el contenido útil
-//   res.status(500).json({ mensaje: "Error al guardar producto", error: error.message });
-// }
-
-// };
 
 const crearProducto = async (req, res) => {
+  console.log("🧾 req.body:", req.body);
+console.log("🖼️ req.file:", req.file);
+
   try {
     const {
       nombre,
@@ -73,13 +50,13 @@ const crearProducto = async (req, res) => {
       precio,
       stock,
       disponible,
-      seccion,
       subcategoria, // 👈 lo agregás acá
+      seccion,
     } = req.body;
 
     // Validación básica
     if (!req.file || !req.file.path) {
-      return res.status(400).json({ error: "Imagen (poster) obligatoria" });
+      return res.status(400).json({ mensaje: "imagen requerida" });
     }
 
     const nuevoProducto = new Producto({
@@ -87,16 +64,16 @@ const crearProducto = async (req, res) => {
       descripcion,
       precio: Number(precio),
       stock: Number(stock),
-      disponible: disponible.split(',').map(t => t.trim()),
-      seccion,
+      disponible: disponible.split(",").map((t) => t.trim()),
       subcategoria, // 👈 y lo usás acá también
+      seccion,
       poster: req.file.path, // ruta pública de Cloudinary
     });
 
     await nuevoProducto.save();
-    res.status(201).json(nuevoProducto);
+   res.status(201).json({ mensaje: "Producto creado", producto: nuevoProducto });
   } catch (error) {
-    console.error("Error al crear el producto:", JSON.stringify(error, null, 2));
+    console.error("❌ Error en crearProducto:", error);
     res.status(500).json({
       mensaje: "Error al guardar producto",
       error: error.message,
