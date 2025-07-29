@@ -7,7 +7,7 @@ obtenerProductos,
   crearProducto,
   actualizarProducto,
   eliminarProducto
-} = require('../controllers/productocontroller');
+} = require('../controllers/productoController');
 
 const authMiddleware = require('../middleware/authMiddleware');
 const upload = require('../middleware/upload'); // o como se llame tu config de multer+cloudinary
