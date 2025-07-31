@@ -25,6 +25,7 @@ server.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 // Rutas
 server.use("/api/auth", authRoutes);        // Login y auth aquí
 server.use("/productos", productoRouter);
+server.use('/auth', authRoutes)
 
 // Exportar servidor
 module.exports = server;
