@@ -1,8 +1,9 @@
-//mejorado con autentificacion y token
+// routes/producto.routes.js
 const express = require('express');
 const router = express.Router();
+
 const {
-obtenerProductos,
+  obtenerProductos,
   obtenerProductoPorId,
   crearProducto,
   actualizarProducto,
@@ -10,14 +11,15 @@ obtenerProductos,
 } = require('../controllers/productoController');
 
 const authMiddleware = require('../middleware/authMiddleware');
-const upload = require('../middleware/upload'); // o como se llame tu config de multer+cloudinary
+const upload = require('../middleware/upload'); // Multer con config para Cloudinary
 
-// Pública
+// Rutas públicas
 router.get('/', obtenerProductos);
+router.get('/:id', obtenerProductoPorId);
 
-// Protegidas
+// Rutas protegidas (requieren login + token)
 router.post('/', authMiddleware, upload.single('poster'), crearProducto);
+router.put('/:id', authMiddleware, upload.single('poster'), actualizarProducto);
 router.delete('/:id', authMiddleware, eliminarProducto);
-router.put('/:id', authMiddleware, upload.single('poster'), actualizarProducto); // si usás imagen nueva
 
 module.exports = router;
